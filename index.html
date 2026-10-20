@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10051d">
+  <meta name="description" content="Jovia Network — discover videos, games, music and digital activities in one rewarding community.">
+  <title>Jovia Network — Watch, Play, Listen & Earn</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#10051d;
+      --bg2:#160821;
+      --panel:rgba(38,15,55,.72);
+      --panel-2:rgba(42,18,62,.62);
+      --line:rgba(224,190,255,.18);
+      --text:#fff9ff;
+      --muted:#c1afce;
+      --green:#d9adff;
+      --green2:#8d39df;
+      --dark:#10051d;
+      --max:1180px;
+      --radius:28px;
+      --shadow:0 24px 70px rgba(0,0,0,.34);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{
+      scroll-behavior:smooth;
+      background:#10051d;
+      color-scheme:dark;
+      overscroll-behavior-y:none;
+    }
+    body{
+      background:
+        radial-gradient(circle at 75% 8%,rgba(157,54,225,.22),transparent 25%),
+        radial-gradient(circle at 15% 35%,rgba(255,197,54,.09),transparent 25%),
+        linear-gradient(180deg,#10051d 0%,#170823 48%,#0c0414 100%);
+      color:var(--text);
+      font-family:"DM Sans",sans-serif;
+      overflow-x:hidden;
+    }
+    body:before{
+      content:"";
+      position:fixed;inset:0;pointer-events:none;z-index:-1;
+      background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                       linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:70px 70px;
+      mask-image:linear-gradient(to bottom,black,transparent 75%);
+    }
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    img{display:block;max-width:100%}
+
+    .container{width:min(var(--max),calc(100% - 40px));margin:auto}
+    .glass{
+      background:linear-gradient(145deg,rgba(57,24,79,.78),rgba(17,6,28,.78));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.045);
+      backdrop-filter:blur(22px);
+      -webkit-backdrop-filter:blur(22px);
+    }
+
+    /* HEADER */
+    header{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      padding:18px 0;
+      transition:.35s ease;
+    }
+    header.scrolled{padding:10px 0}
+    .nav{
+      height:68px;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:9px 12px 9px 18px;
+      border-radius:22px;
+    }
+    .brand img{width:126px;height:auto;object-fit:contain}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .join-btn,.menu-btn{
+      border:1px solid rgba(225,184,255,.22);
+      color:var(--text);
+      cursor:pointer;
+    }
+    .join-btn{
+      padding:12px 19px;border-radius:15px;
+      background:linear-gradient(135deg,#ffe58b,#d6a52e);
+      color:#07150e;font-weight:800;
+      box-shadow:0 10px 30px rgba(219,170,46,.22);
+      transition:.25s;
+    }
+    .join-btn:hover{transform:translateY(-2px);box-shadow:0 14px 35px rgba(219,170,46,.32)}
+    .menu-btn{
+      width:47px;height:47px;border-radius:15px;
+      background:rgba(255,255,255,.055);
+      display:grid;place-items:center;
+    }
+    .hamb{width:20px;display:grid;gap:5px}
+    .hamb span{height:2px;border-radius:3px;background:#dcffea;transition:.25s}
+    .menu-btn.open .hamb span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .menu-btn.open .hamb span:nth-child(2){opacity:0}
+    .menu-btn.open .hamb span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    .drawer{
+      position:fixed;top:96px;right:max(20px,calc((100vw - var(--max))/2));
+      width:min(320px,calc(100vw - 40px));padding:12px;border-radius:24px;
+      transform:translateY(-15px) scale(.98);opacity:0;pointer-events:none;
+      transition:.3s;z-index:99;
+    }
+    .drawer.show{transform:none;opacity:1;pointer-events:auto}
+    .drawer a{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:15px;border-radius:15px;color:#dcece2;font-weight:600;
+    }
+    .drawer a:hover{background:rgba(190,100,255,.12);color:var(--green)}
+    .drawer small{color:#71877b}
+
+    /* HERO */
+    .hero{min-height:850px;padding:160px 0 90px;display:flex;align-items:center}
+    .hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:70px;align-items:center}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:9px;padding:8px 12px;border-radius:999px;
+      color:#c9fbdc;background:rgba(92,239,157,.08);border:1px solid rgba(104,241,166,.16);
+      font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    }
+    .dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 14px var(--green)}
+    h1{
+      font-family:Manrope,sans-serif;font-size:clamp(48px,6vw,80px);line-height:.98;
+      letter-spacing:-.055em;margin:22px 0;
+    }
+    .gradient{background:linear-gradient(110deg,#fff 8%,#ffe99b 48%,#c16aff 95%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero-copy{max-width:650px;color:var(--muted);font-size:18px;line-height:1.8}
+    .hero-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+    .cta{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:54px;padding:0 21px;border-radius:17px;font-weight:800;transition:.25s;
+    }
+    .cta-primary{background:linear-gradient(135deg,#ffe98b,#d3a12a 55%,#a85be9);color:#06120c;box-shadow:0 18px 40px rgba(216,166,43,.2)}
+    .cta-secondary{border:1px solid var(--line);background:rgba(255,255,255,.045);color:#e8fff0}
+    .cta:hover{transform:translateY(-3px)}
+    .micro{display:flex;gap:18px;flex-wrap:wrap;margin-top:25px;color:#71887b;font-size:13px}
+    .micro span{display:flex;align-items:center;gap:7px}
+    .check{color:var(--green)}
+
+    .hero-visual{position:relative;min-height:540px;display:grid;place-items:center}
+    .orb{
+      position:absolute;width:390px;height:390px;border-radius:50%;
+      background:radial-gradient(circle,rgba(179,82,239,.3),rgba(222,174,45,.08) 48%,transparent 70%);
+      filter:blur(3px)
+    }
+    .phone{
+      width:275px;height:530px;border-radius:40px;padding:9px;position:relative;z-index:2;
+      background:linear-gradient(145deg,#d5b3e8,#35164c 34%,#09030f 100%);
+      border:1px solid rgba(216,255,229,.2);
+      box-shadow:0 35px 80px rgba(0,0,0,.52),0 0 0 1px rgba(255,255,255,.04);
+      transform:rotate(3deg);
+    }
+    .phone-screen{
+      width:100%;height:100%;border-radius:33px;overflow:hidden;
+      background:linear-gradient(180deg,#271038,#10051d);
+      position:relative;
+    }
+    /* Replace hero1.png with your actual uploaded image if desired. */
+    .phone-screen img{width:100%;height:100%;object-fit:cover}
+    .phone-fallback{
+      position:absolute;inset:0;padding:24px;display:flex;flex-direction:column;justify-content:space-between;
+      background:radial-gradient(circle at 75% 20%,rgba(190,92,255,.28),transparent 35%),#091810;
+    }
+    .phone-top{display:flex;justify-content:space-between;font-size:11px;color:#98aa9f}
+    .mini-logo{font-family:Manrope;font-weight:800;color:#effff4}
+    .phone-title{margin-top:40px;font-family:Manrope;font-size:28px;font-weight:800;line-height:1.05}
+    .phone-card{margin-top:18px;padding:15px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.045)}
+    .phone-card strong{display:block;font-size:24px;color:var(--green);margin-top:5px}
+    .phone-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+    .phone-bottom div{padding:10px 5px;text-align:center;border-radius:12px;background:rgba(255,255,255,.04);font-size:9px;color:#8fa398}
+
+    .float-card{
+      position:absolute;z-index:3;padding:15px 17px;border-radius:19px;
+      display:flex;gap:12px;align-items:center;animation:float 4s ease-in-out infinite;
+    }
+    .float-card.one{top:80px;right:0}
+    .float-card.two{bottom:72px;left:0;animation-delay:-2s}
+    .icon-box{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:rgba(99,239,157,.11);color:var(--green);font-size:18px}
+    .float-card b{display:block;font-size:13px}
+    .float-card small{display:block;color:#7e9488;margin-top:3px}
+    @keyframes float{50%{transform:translateY(-9px)}}
+
+    section{padding:105px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:45px}
+    .kicker{color:var(--green);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    h2{font-family:Manrope;font-size:clamp(34px,4vw,54px);line-height:1.02;letter-spacing:-.045em;margin-top:12px}
+    .section-desc{max-width:470px;color:var(--muted);line-height:1.7}
+
+    /* HOW */
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+    .step{padding:27px;border-radius:25px;min-height:230px;position:relative;overflow:hidden}
+    .step:after{content:"";position:absolute;width:100px;height:100px;right:-45px;bottom:-50px;border-radius:50%;background:rgba(205,145,255,.1)}
+    .num{font-family:Manrope;font-size:13px;color:var(--green);font-weight:800}
+    .step h3{font-family:Manrope;font-size:20px;margin:45px 0 10px}
+    .step p{color:var(--muted);line-height:1.65;font-size:14px}
+
+    /* BENEFITS */
+    .benefit-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    .benefit-main{min-height:430px;padding:38px;border-radius:30px;position:relative;overflow:hidden}
+    .benefit-main h3{font-family:Manrope;font-size:34px;max-width:550px;line-height:1.1;margin:15px 0}
+    .benefit-main p{color:var(--muted);line-height:1.7;max-width:580px}
+    .benefit-pills{display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}
+    .pill{padding:10px 13px;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:999px;font-size:12px;color:#c4d8cc}
+    .benefit-main .glow{
+      position:absolute;right:-120px;bottom:-150px;width:430px;height:430px;border-radius:50%;
+      background:radial-gradient(circle,rgba(198,99,255,.22),transparent 65%);
+    }
+    .benefit-stack{display:grid;gap:18px}
+    .benefit-card{padding:28px;border-radius:27px;min-height:206px}
+    .benefit-card h3{font-family:Manrope;font-size:21px;margin:20px 0 9px}
+    .benefit-card p{color:var(--muted);font-size:14px;line-height:1.65}
+
+    .reward-explainer{
+      display:grid;
+      gap:9px;
+      margin-top:25px;
+      max-width:650px;
+    }
+    .reward-line{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:12px 13px;
+      border:1px solid rgba(180,255,211,.09);
+      border-radius:17px;
+      background:rgba(255,255,255,.032);
+    }
+.reward-icon{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  color:#70f5a1;
+  background:rgba(185,96,255,.1);
+  border:1px solid rgba(213,161,255,.18);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.06),
+    0 6px 18px rgba(0,0,0,.12);
+}
+
+.reward-icon svg{
+  width:19px;
+  height:19px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+    .reward-line strong{
+      display:block;
+      font-size:13px;
+      color:#eafff1;
+    }
+    .reward-line small{
+      display:block;
+      color:#81968a;
+      font-size:11px;
+      line-height:1.55;
+      margin-top:3px;
+    }
+
+  /* FEATURES */
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+
+.feature-card{
+  overflow:hidden;
+  border-radius:28px;
+}
+
+.feature-image{
+  aspect-ratio:4 / 4.7;
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#183c2b,#0a1c14);
+}
+
+.feature-image img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+}
+
+.image-label{
+  position:absolute;
+  left:15px;
+  bottom:15px;
+  padding:7px 10px;
+  border-radius:10px;
+  background:rgba(3,12,8,.68);
+  border:1px solid rgba(255,255,255,.1);
+  font-size:10px;
+  color:#d2e9da;
+  backdrop-filter:blur(12px);
+}
+
+.feature-copy{
+  padding:24px;
+}
+
+.feature-copy h3{
+  font-family:Manrope;
+  font-size:20px;
+  margin-bottom:9px;
+}
+
+.feature-copy p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+
+/* CAC */
+.cac{
+  padding:40px;
+  border-radius:31px;
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:32px;
+  align-items:center;
+  margin-bottom:-90px;
+}
+
+.cac h2{
+  font-size:40px;
+}
+
+.cac p{
+  color:var(--muted);
+  line-height:1.75;
+  margin-top:16px;
+}
+
+.cac-info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:25px;
+}
+
+.info{
+  padding:15px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.035);
+  border-radius:16px;
+}
+
+.info span{
+  display:block;
+  color:#748b7e;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.info b{
+  display:block;
+  margin-top:6px;
+  font-size:13px;
+}
+
+.cac-image{
+  width:100%;
+  height:440px !important;
+  min-height:335px !important;
+  max-height:none !important;
+  border-radius:24px;
+  overflow:hidden;
+  background:#0b1b13;
+  border:1px solid var(--line);
+}
+
+.cac-image img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain !important;
+  object-position:center;
+  margin-bottom:-20px;
+}
+
+    /* TESTIMONIALS */
+    .reviews-wrap{position:relative;overflow:hidden}
+    .reviews-track{
+      display:flex;gap:18px;transition:transform .7s cubic-bezier(.22,.61,.36,1);
+    }
+    .review{min-width:calc((100% - 36px)/3);padding:28px;border-radius:27px}
+    .stars{color:#9bffc0;letter-spacing:2px;font-size:14px}
+    .quote{font-family:Manrope;font-size:18px;line-height:1.55;margin:22px 0 26px;min-height:140px}
+    .reviewer{display:flex;align-items:center;gap:12px}
+    .avatar{
+      width:45px;height:45px;border-radius:50%;overflow:hidden;display:grid;place-items:center;
+      background:linear-gradient(145deg,#224b36,#10261b);color:#aaffc9;font-weight:800
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .reviewer b{font-size:14px}.reviewer small{display:block;color:#7f9689;margin-top:3px}
+    .slider-controls{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:28px}
+    .arrow{
+      width:42px;height:42px;border-radius:13px;border:1px solid var(--line);
+      background:rgba(255,255,255,.04);color:#dfffea;cursor:pointer
+    }
+    .dots{display:flex;gap:6px}
+    .dot-btn{width:7px;height:7px;border:0;border-radius:50%;background:#40594c;cursor:pointer}
+    .dot-btn.active{width:20px;border-radius:10px;background:var(--green)}
+
+    .verification-row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+    .verified-badge{
+      min-height:68px;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      padding:13px 14px;
+      border-radius:18px;
+      background:
+        linear-gradient(145deg,rgba(187,100,255,.14),rgba(255,255,255,.035));
+      border:1px solid rgba(213,161,255,.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.06),
+        0 12px 30px rgba(0,0,0,.14);
+      backdrop-filter:blur(14px);
+    }
+    .verified-icon{
+      width:32px;
+      height:32px;
+      flex:0 0 32px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      color:#06140d;
+      background:linear-gradient(145deg,#ffe99b,#d8a62d);
+      font-weight:900;
+      box-shadow:0 0 20px rgba(218,169,43,.2);
+    }
+    .verified-badge strong{
+      display:block;
+      font-size:12px;
+      color:#eafff1;
+    }
+    .verified-badge small{
+      display:block;
+      margin-top:3px;
+      color:#789184;
+      font-size:10px;
+    }
+
+    /* FLOATING GET STARTED */
+    .floating-start{
+      position:fixed;
+      left:50%;
+      bottom:22px;
+      transform:translate(-50%,24px);
+      z-index:90;
+      opacity:0;
+      pointer-events:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-width:170px;
+      height:56px;
+      padding:0 23px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.62);
+      color:#17221d;
+      font-size:16px;
+      font-weight:700;
+      letter-spacing:-.02em;
+      background:
+        linear-gradient(145deg,
+          rgba(255,255,255,.96) 0%,
+          rgba(235,238,236,.90) 42%,
+          rgba(194,200,197,.86) 100%);
+      box-shadow:
+        0 20px 45px rgba(0,0,0,.28),
+        0 5px 18px rgba(255,255,255,.22),
+        inset 0 2px 2px rgba(255,255,255,.92),
+        inset 0 -2px 5px rgba(86,95,90,.18);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      transition:opacity .35s ease,transform .35s ease,box-shadow .25s ease;
+    }
+    .floating-start.show{
+      opacity:1;
+      transform:translate(-50%,0);
+      pointer-events:auto;
+    }
+    .floating-start:hover{
+      box-shadow:
+        0 24px 50px rgba(0,0,0,.34),
+        0 7px 20px rgba(255,255,255,.26),
+        inset 0 2px 2px rgba(255,255,255,.95),
+        inset 0 -2px 5px rgba(86,95,90,.18);
+    }
+    .floating-start .float-arrow{
+      color:#17221d;
+      font-size:25px;
+      font-weight:400;
+      line-height:1;
+      margin-left:2px;
+    }
+    .pulse-dot{
+      width:9px;
+      height:9px;
+      flex:0 0 9px;
+      border-radius:50%;
+      background:#d5a52c;
+      box-shadow:0 0 0 0 rgba(213,165,44,.48);
+      animation:pulseDot 1.8s infinite;
+    }
+    @keyframes pulseDot{
+      0%{box-shadow:0 0 0 0 rgba(213,165,44,.48)}
+      70%{box-shadow:0 0 0 8px rgba(213,165,44,0)}
+      100%{box-shadow:0 0 0 0 rgba(213,165,44,0)}
+    }
+
+    /* FAQ */
+    .faq{max-width:850px;margin:auto}
+    .faq-item{border-bottom:1px solid var(--line)}
+    .faq-q{width:100%;display:flex;justify-content:space-between;gap:20px;padding:22px 0;background:none;border:0;color:var(--text);text-align:left;font-weight:700;cursor:pointer}
+    .plus{color:var(--green);font-size:22px;transition:.25s}
+    .faq-a{max-height:0;overflow:hidden;color:var(--muted);line-height:1.7;transition:max-height .35s ease}
+    .faq-a p{padding:0 45px 22px 0}
+    .faq-item.open .faq-a{max-height:180px}
+    .faq-item.open .plus{transform:rotate(45deg)}
+
+    /* FINAL CTA */
+    .final-cta{padding:0 0 105px}
+    .cta-box{
+      text-align:center;padding:70px 30px;border-radius:35px;position:relative;overflow:hidden;
+      background:
+        radial-gradient(circle at 50% 0%,rgba(102,242,161,.18),transparent 45%),
+        linear-gradient(145deg,rgba(26,62,46,.75),rgba(7,22,15,.76));
+    }
+    .cta-box:before{content:"";position:absolute;inset:1px;border:1px solid rgba(160,255,200,.1);border-radius:34px;pointer-events:none}
+    .cta-box h2{max-width:680px;margin:12px auto 15px}
+    .cta-box p{max-width:570px;margin:auto;color:var(--muted);line-height:1.7}
+    .cta-box .cta{margin-top:28px;min-width:190px}
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:38px 0 calc(25px + env(safe-area-inset-bottom));
+      background:
+        radial-gradient(circle at 50% 0%,rgba(74,226,137,.055),transparent 34%),
+        linear-gradient(180deg,#06110d 0%,#050d09 100%);
+    }
+    .footer-top{
+      display:flex;
+      justify-content:space-between;
+      gap:30px;
+      align-items:center;
+    }
+    .footer-logo img{width:118px}
+    .footer-links{
+      display:flex;
+      gap:22px;
+      flex-wrap:wrap;
+      color:#8da398;
+      font-size:13px;
+    }
+    .footer-links a:hover{color:var(--green)}
+    .contact{
+      display:flex;
+      gap:11px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:28px;
+    }
+    .contact-item{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      min-height:46px;
+      padding:0 14px;
+      border-radius:15px;
+      border:1px solid rgba(190,255,220,.09);
+      background:rgba(255,255,255,.028);
+      color:#a9bdb1;
+      font-size:12px;
+      transition:.25s ease;
+    }
+    .contact-item:hover{
+      border-color:rgba(102,242,161,.22);
+      background:rgba(102,242,161,.055);
+      color:#e8fff0;
+      transform:translateY(-1px);
+    }
+    .contact-icon{
+      width:28px;
+      height:28px;
+      flex:0 0 28px;
+      display:grid;
+      place-items:center;
+      border-radius:10px;
+      color:var(--green);
+      background:rgba(185,96,255,.1);
+      border:1px solid rgba(112,245,161,.12);
+    }
+    .contact-icon svg{
+      width:15px;
+      height:15px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:1.8;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+    .contact-item span:last-child{white-space:nowrap}
+    .footer-bottom{
+      display:flex;
+      justify-content:flex-start;
+      gap:20px;
+      margin-top:22px;
+      padding-top:20px;
+      border-top:1px solid rgba(255,255,255,.05);
+      color:#63786d;
+      font-size:12px;
+    }
+
+    .reveal{opacity:0;transform:translateY(24px);transition:.7s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:900px){
+      .hero{min-height:auto;padding-top:145px}
+      .hero-grid,.benefit-grid,.cac{grid-template-columns:1fr}
+      .hero-visual{min-height:570px}
+      .steps{grid-template-columns:1fr 1fr}
+      .feature-grid{grid-template-columns:1fr 1fr}
+      .review{min-width:calc((100% - 18px)/2)}
+      .section-head{align-items:start;flex-direction:column}
+    }
+    @media(max-width:620px){
+      .container{width:min(var(--max),calc(100% - 26px))}
+      header{padding:10px 0}
+      .nav{height:60px;border-radius:19px;padding-left:13px}
+      .brand img{width:105px}
+      .join-btn{padding:10px 13px;font-size:12px}
+      .menu-btn{width:42px;height:42px}
+      .drawer{top:80px;right:13px}
+      h1{font-size:48px}
+      .hero{padding-top:125px;padding-bottom:55px}
+      .hero-copy{font-size:16px}
+      .hero-buttons{display:grid}
+      .cta{width:100%}
+      .hero-visual{min-height:515px;margin-top:15px}
+      .phone{width:245px;height:470px}
+      .float-card{padding:12px}
+      .float-card.one{right:-2px;top:55px}
+      .float-card.two{left:-2px;bottom:40px}
+      .steps,.feature-grid{grid-template-columns:1fr}
+      .step{min-height:200px}
+      .benefit-main{padding:27px;min-height:390px}
+      .benefit-card{min-height:180px}
+      .cac{padding:27px}
+      .cac-info{grid-template-columns:1fr}
+      .cac-image{height:220px}
+      .verification-row{grid-template-columns:1fr}
+      .floating-start{bottom:14px;min-width:166px;height:52px;font-size:15px}
+      .review{min-width:100%}
+      .quote{min-height:0}
+      .footer-top,.footer-bottom{align-items:flex-start;flex-direction:column}
+      .contact{width:100%;flex-direction:column;align-items:stretch}
+      .contact-item{width:100%;justify-content:flex-start}
+    }
+  
+    .jovia-wordmark{display:inline-flex;align-items:center;gap:9px;font-family:Manrope,sans-serif;font-weight:800;font-size:27px;letter-spacing:-.06em;color:#fff;line-height:1}
+    .jovia-mark{display:grid;place-items:center;width:35px;height:35px;border-radius:11px;background:linear-gradient(145deg,#ffe98b,#d5a52c 55%,#9c48db);color:#160821;font-size:23px;font-weight:900;box-shadow:0 0 25px rgba(219,170,46,.2)}
+    .jovia-wordmark small{display:block;font-family:"DM Sans",sans-serif;font-size:8px;letter-spacing:.25em;margin-top:4px;color:#d8c3e8}
+    .join-btn,.cta-primary{color:#160821}
+    .kicker,.num,.check{color:#e4bd52}
+    .dot{background:#e4bd52;box-shadow:0 0 14px #e4bd52}
+  </style>
+</head>
+
+<body>
+  <!-- =========================
+       IMAGE FILE HANDLES
+       Put these files beside index.html:
+       logo.png
+       hero1.png
+       feature1.png
+       feature2.png
+       feature3.png
+       cac.png
+       testimonial1.jpg
+       testimonial2.jpg
+       testimonial3.jpg
+       ========================= -->
+
+  <header id="header">
+    <div class="container">
+      <nav class="nav glass">
+        <a class="brand" href="index.html" aria-label="Jovia Network home">
+          <!-- LOGO HANDLE: logo.png -->
+          <img src="logo.PNG" alt="Jovia logo">
+        </a>
+
+        <div class="nav-actions">
+          <a class="join-btn" href="rewards.html">Get Started</a>
+          <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+            <span class="hamb"><span></span><span></span><span></span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <aside class="drawer glass" id="drawer">
+    <a href="#how-it-works">How It Works</a>
+    <a href="about.html">About Us</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="refund.html">Refund Policy</a>
+  </aside>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span>WATCH VIDEOS, EARN REWARDS ON JOVIA</div>
+          <h1>Watch. Play.<br><span class="gradient">Listen & Earn</span></h1>
+          <p class="hero-copy">
+            Jovia Network turns eligible entertainment and digital activities into reward opportunities. Watch celebrity videos, play games, listen to music, and explore shopping and selling — with activity rewards based on your membership package and the platform’s rules.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="rewards.html" class="cta cta-primary">Explore Jovia Now</a>
+          </div>
+
+          <div class="micro">
+            <span><b class="check">✓</b> Earn from eligible activities</span>
+            <span><b class="check">✓</b> Celebrity videos</span>
+            <span><b class="check">✓</b> Package-based reward rates</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="orb"></div>
+
+          <div class="float-card one glass">
+            <div class="icon-box">✦</div>
+            <div><b>Earn with Jovia</b><small>Videos, games and music rewards</small></div>
+          </div>
+
+          <div class="phone">
+  <div class="phone-screen">
+    <!-- Keep the hero image filename aligned with the image you upload. -->
+    <img src="hero1.jpg" alt="Jovia Network earning activities dashboard">
+  </div>
+</div>
+
+          <div class="float-card two glass">
+            <div class="icon-box">₦</div>
+            <div><b>Your earnings</b><small>Build eligible rewards</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">How it works</div>
+            <h2>Your activities.<br><span class="gradient">Your Jovia experience.</span></h2>
+          </div>
+          <p class="section-desc">
+            Join Jovia, choose your membership package, complete eligible activities, and earn according to the reward rates and conditions that apply to your package.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step glass reveal">
+            <div class="num">01 / JOIN</div>
+            <h3>Create your account</h3>
+            <p>Start with your details and get set up for the Jovia Network.</p>
+          </article>
+          <article class="step glass reveal">
+            <div class="num">02 / EXPLORE</div>
+            <h3>Choose activities that pay</h3>
+            <p>Watch eligible celebrity videos, play timed games, stream music, and complete other reward-enabled activities.</p>
+          </article>
+          <article class="step glass reveal">
+            <div class="num">03 / PARTICIPATE</div>
+            <h3>Complete eligible activities</h3>
+            <p>Follow each activity’s instructions and time requirements so your eligible participation can count toward rewards.</p>
+          </article>
+          <article class="step glass reveal">
+            <div class="num">04 / REWARD</div>
+            <h3>Build your earnings</h3>
+            <p>Check your reward balance and withdrawal eligibility in line with Jovia’s published terms.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS / REWARDS BRIEF -->
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">Benefits & rewards</div>
+            <h2>More than just<br><span class="gradient">a task platform.</span></h2>
+          </div>
+          <p class="section-desc">
+            A quick look at what members can experience on the platform — without
+            putting packages or membership selection on the homepage.
+          </p>
+        </div>
+
+        <div class="benefit-grid">
+          <article class="benefit-main glass reveal">
+            <div class="glow"></div>
+            <div class="kicker">Your activities can earn rewards</div>
+            <h3>Earn from videos, games and music.</h3>
+            <p>
+              On Jovia, eligible activities have package-based reward rates. Silver and Gold members have different rates for celebrity video sessions, timed games, music streaming and other activities. Check the package details for the exact rates and requirements.
+            </p>
+
+            <div class="reward-explainer">
+              <div class="reward-line">
+              <span class="reward-icon">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 11l2 2 4-4"/>
+    <path d="M5 4h14v16H5z"/>
+    <path d="M8 4V2h8v2"/>
+  </svg>
+</span>
+                <div>
+                  <strong>Earn per eligible video session</strong>
+                  <small>up to ₦5,000 per 30 seconds celebrity video, subject to the activity rules.</small>
+                </div>
+              </div>
+              <div class="reward-line">
+               <span class="reward-icon">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3 17l6-6 4 4 8-8"/>
+    <path d="M15 7h6v6"/>
+  </svg>
+</span>
+                <div>
+                  <strong>Earn from timed games and music</strong>
+                  <small>Up to ₦8,000 per 60 seconds session, Music and other activity rates vary by package.</small>
+                </div>
+              </div>
+              <div class="reward-line">
+               <span class="reward-icon">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3 7h18v14H3z"/>
+    <path d="M3 10h18"/>
+    <path d="M7 4h10"/>
+    <path d="M7 15h4"/>
+  </svg>
+</span>
+                <div>
+                  <strong>Check your balance and withdrawals</strong>
+                  <small>Monitor eligible rewards in your account and follow Jovia’s withdrawal requirements before requesting a payout.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="benefit-pills">
+              <span class="pill">Celebrity videos</span>
+              <span class="pill">Video session rewards</span>
+              <span class="pill">Music streaming</span>
+              <span class="pill">Earnings & withdrawals</span>
+              <span class="pill">Shopping & selling</span>
+            </div>
+          </article>
+
+          <div class="benefit-stack">
+            <article class="benefit-card glass reveal">
+              <div class="icon-box">◈</div>
+              <h3>Know your earning rates</h3>
+              <p>Compare Silver and Gold to see the advertised reward rates and which benefits are included in each package.</p>
+            </article>
+            <article class="benefit-card glass reveal">
+              <div class="icon-box">✧</div>
+              <h3>More ways to earn</h3>
+              <p>Earn from eligible celebrity video sessions, timed games, music streaming, Meta activities, and other package-enabled activities.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLATFORM FEATURES -->
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">Inside Jovia</div>
+            <h2>Discover videos.<br><span class="gradient">Play, listen, explore.</span></h2>
+          </div>
+          <p class="section-desc">
+            Jovia brings together celebrity videos, timed games, music streaming, shopping and selling — with advertised reward rates for eligible activities based on your package.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card glass reveal">
+            <div class="feature-image">
+              <!-- IMAGE HANDLE: feature1.png -->
+              <img src="feature1.JPG" alt="Celebrity and creator videos on Jovia"
+                   onerror="this.style.display='none'">
+              <span class="image-label">Watch videos</span>
+            </div>
+            <div class="feature-copy">
+              <h3>Earn from celebrity videos</h3>
+              <p>Watch eligible celebrity and creator video sessions and earn according to your package’s advertised rate and session requirements.</p>
+            </div>
+          </article>
+
+          <article class="feature-card glass reveal">
+            <div class="feature-image">
+              <!-- IMAGE HANDLE: feature2.png -->
+              <img src="feature2.JPG" alt="Games and activities on Jovia"
+                   onerror="this.style.display='none'">
+              <span class="image-label">Jovia Network</span>
+            </div>
+            <div class="feature-copy">
+              <h3>Fun games</h3>
+              <p>Play eligible timed games and earn according to the reward rate and session length for your membership package.</p>
+            </div>
+          </article>
+
+          <article class="feature-card glass reveal">
+            <div class="feature-image">
+              <!-- IMAGE HANDLE: feature3.png -->
+              <img src="feature3.JPG" alt="Music streaming and digital activities on Jovia"
+                   onerror="this.style.display='none'">
+              <span class="image-label">Jovia Activities</span>
+            </div>
+            <div class="feature-copy">
+              <h3>Music, shopping & selling rewards</h3>
+              <p>Earn from eligible music-streaming and Meta activities, and explore shopping and selling opportunities available through Jovia Network.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAC / COMPANY -->
+    <section>
+      <div class="container">
+        <div class="cac glass reveal">
+          <div>
+            <div class="kicker">Company information</div>
+            <h2>Built with a real-world<br><span class="gradient">business foundation.</span></h2>
+            <p>
+              Jovia Network combines entertainment with package-based earning opportunities through eligible video sessions, timed games, music streaming, shopping, selling and other activities. 
+            </p>
+
+            <div class="cac-info">
+              <div class="info">
+                <span>Registered name</span>
+                <b>JOVIA NETWORK</b>
+              </div>
+              <div class="info">
+                <span>Business registration number</span>
+                <b>RC - 9753347</b>
+              </div>
+            </div>
+
+            <div class="verification-row">
+              <div class="verified-badge">
+                <span class="verified-icon">✓</span>
+                <div>
+                  <strong>Registered</strong>
+                  <small>Business registration</small>
+                </div>
+              </div>
+              <div class="verified-badge">
+                <span class="verified-icon">✓</span>
+                <div>
+                  <strong>Verified Status</strong>
+                  <small>Company information</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cac-image">
+            <!-- IMAGE HANDLE: cac.png -->
+            <img src="feature4.JPG" alt="Company CAC document or registration visual"
+                 onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section>
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <div class="kicker">What people say</div>
+            <h2>Real stories.<br><span class="gradient">Real experiences.</span></h2>
+          </div>
+          <p class="section-desc">
+            Jovia is built around entertainment and earning opportunities. See how members can earn through eligible videos, games, music and other activities, then check the published package rates and withdrawal conditions.
+          </p>
+        </div>
+
+        <div class="reviews-wrap reveal">
+          <div class="reviews-track" id="reviewsTrack">
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“I recently joined Jovia and started exploring the activities available. I have already been earning from the tasks available to me, and the withdrawal process was straightforward once I met the requirements.”</p>
+              <div class="reviewer">
+                <div class="avatar">
+                  <!-- IMAGE HANDLE: testimonial1.jpg -->
+                  <img src="testimonial1.jpg" alt="" onerror="this.style.display='none'">
+                  <span>FO</span>
+                </div>
+                <div><b>Favour Okafor</b><small>Lagos, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“What I enjoy most is that I can see my reward progress as I complete tasks. I have been earning from my activities and have successfully withdrawn my eligible rewards.”</p>
+              <div class="reviewer">
+                <div class="avatar">
+                  <!-- IMAGE HANDLE: testimonial2.jpg -->
+                  <img src="testimonial2.jpg" alt="" onerror="this.style.display='none'">
+                  <span>DE</span>
+                </div>
+                <div><b>Daniel Eze</b><small>Abuja, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“I explored the activities and gradually understood how everything works. Seeing my earnings build up and being able to withdraw eligible rewards has made the experience encouraging.”</p>
+              <div class="reviewer">
+                <div class="avatar">
+                  <!-- IMAGE HANDLE: testimonial3.jpg -->
+                  <img src="testimonial3.jpg" alt="" onerror="this.style.display='none'">
+                  <span>CN</span>
+                </div>
+                <div><b>Chiamaka Nwosu</b><small>Enugu, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“I joined to explore videos, games and music, and I enjoy the variety of activities. I have completed several eligible tasks, watched my rewards increase and made a withdrawal.”</p>
+              <div class="reviewer">
+                <div class="avatar"><span>AO</span></div>
+                <div><b>Amaka Obi</b><small>Port Harcourt, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“The tasks are easy for me to understand after going through the instructions. I have been consistently checking my rewards and have withdrawn when my eligible balance was ready.”</p>
+              <div class="reviewer">
+                <div class="avatar"><span>YS</span></div>
+                <div><b>Yusuf Sani</b><small>Kano, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“I enjoy being able to explore Jovia activities and track eligible rewards when available.”</p>
+              <div class="reviewer">
+                <div class="avatar"><span>GA</span></div>
+                <div><b>Grace Adeyemi</b><small>Ibadan, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“I like that I can combine learning with practical tasks. My reward balance has grown as I complete activities, and I have already made an eligible withdrawal.”</p>
+              <div class="reviewer">
+                <div class="avatar"><span>MO</span></div>
+                <div><b>Michael Okoro</b><small>Benin City, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“Jovia gave me a practical way to get involved with Jovia activities. I have been earning from the tasks assigned to me and I like being able to follow my reward activity.”</p>
+              <div class="reviewer">
+                <div class="avatar"><span>SI</span></div>
+                <div><b>Sarah Ibrahim</b><small>Kaduna, Nigeria</small></div>
+              </div>
+            </article>
+
+            <!-- SAMPLE TESTIMONIAL — replace with a verified member review before publishing -->
+            <article class="review glass">
+              <div class="stars">★★★★★</div>
+              <p class="quote">“The platform has helped me understand Jovia activities while giving me a way to earn from eligible activities. I have completed tasks, built rewards and made a withdrawal.”</p>
+              <div class="reviewer">
+                <div class="avatar"><span>KE</span></div>
+                <div><b>Kelechi Emmanuel</b><small>Owerri, Nigeria</small></div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <div class="slider-controls">
+          <button class="arrow" id="prevReview" aria-label="Previous reviews">←</button>
+          <div class="dots" id="reviewDots"></div>
+          <button class="arrow" id="nextReview" aria-label="Next reviews">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+  <div class="container">
+    <div class="section-head reveal" style="justify-content:center;text-align:center">
+      <div>
+        <div class="kicker">FAQS</div>
+        <h2>Frequently asked questions.</h2>
+      </div>
+    </div>
+
+    <div class="faq">
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          What is Jovia Network?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            Jovia Network offers celebrity and creator videos, games, music streaming, shopping, selling and other digital activities. Package benefits and activity rewards are subject to the rules displayed on the platform.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          What kind of tasks can I do?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            Available activities may include watching celebrity and creator videos, playing games, streaming music, shopping, selling and other features currently offered on Jovia.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          What tasks are available?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            Available activities can include videos, games, music and other entertainment or marketplace features listed on the platform.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          How do I withdraw my earnings?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            Once you meet the applicable requirements, you can follow the available withdrawal process on the platform.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          How can I request a refund?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            You can request a refund according to our refund terms. See our
+            <a href="refund.html">Refund Policy</a>
+            for the full process and eligibility requirements.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Do I need any special skills?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            No special skills are required. Tasks are designed to be simple and easy to understand.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Can I participate from outside Nigeria?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            Yes. Jovia Network is designed for participants across Africa and beyond. Task availability may vary by region.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Where can I see the available packages?
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <p>
+            The package and membership selection is kept separate from this homepage. Use the Get Started or Join Jovia buttons to continue to the rewards page.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta">
+      <div class="container">
+        <div class="cta-box glass reveal">
+          <div class="kicker">Ready when you are</div>
+          <h2>Start your journey with <span class="gradient">Jovia Network.</span></h2>
+          <p>Explore the available options and continue to the next step when you're ready.</p>
+          <a href="rewards.html" class="cta cta-primary">Join Jovia Now</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="rewards.html" class="floating-start" id="floatingStart">
+    <span class="pulse-dot"></span>
+    <span>Get started</span>
+    <span class="float-arrow">→</span>
+  </a>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <a href="index.html" class="footer-logo">
+          <!-- FOOTER LOGO HANDLE: logo.png -->
+          <img src="logo.PNG" alt="Evermore logo">
+        </a>
+        <div class="footer-links">
+          <a href="about.html">About Us</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="refund.html">Refund Policy</a>
+          <a href="terms.html">Terms & Conditions</a>
+        </div>
+      </div>
+
+      <div class="contact">
+        <a class="contact-item" href="mailto:jovianetwork@gmail.com" aria-label="Email Evermore">
+          <span class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="5" width="18" height="14" rx="3"></rect>
+              <path d="m4 7 8 6 8-6"></path>
+            </svg>
+          </span>
+          <span>support@jovianetwork.com</span>
+        </a>
+
+        <span class="contact-item">
+          <span class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"></path>
+              <circle cx="12" cy="9" r="2.4"></circle>
+            </svg>
+          </span>
+          <span>Lagos, Nigeria</span>
+        </span>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Jovia Network. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header + menu
+    const header = document.getElementById('header');
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 30);
+    });
+
+    menuBtn.addEventListener('click', () => {
+      const open = drawer.classList.toggle('show');
+      menuBtn.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', open);
+    });
+
+    document.querySelectorAll('.drawer a').forEach(a => {
+      a.addEventListener('click', () => {
+        drawer.classList.remove('show');
+        menuBtn.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if(entry.isIntersecting){
+          setTimeout(() => entry.target.classList.add('visible'), Math.min(index * 35, 180));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.12});
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // FAQ
+    document.querySelectorAll('.faq-q').forEach(button => {
+      button.addEventListener('click', () => {
+        const item = button.parentElement;
+        document.querySelectorAll('.faq-item').forEach(other => {
+          if(other !== item) other.classList.remove('open');
+        });
+        item.classList.toggle('open');
+      });
+    });
+
+    // Floating Get Started button:
+    // hidden on initial load, appears after the visitor starts scrolling and remains visible.
+    const floatingStart = document.getElementById('floatingStart');
+    function updateFloatingStart(){
+      floatingStart.classList.toggle('show', window.scrollY > 90);
+    }
+    window.addEventListener('scroll', updateFloatingStart, {passive:true});
+    updateFloatingStart();
+
+    // Testimonials slider
+    const track = document.getElementById('reviewsTrack');
+    const cards = [...track.querySelectorAll('.review')];
+    const dotsWrap = document.getElementById('reviewDots');
+    const prev = document.getElementById('prevReview');
+    const next = document.getElementById('nextReview');
+    let index = 0;
+    let timer;
+
+    function perView(){
+      if(window.innerWidth <= 620) return 1;
+      if(window.innerWidth <= 900) return 2;
+      return 3;
+    }
+
+    function maxIndex(){
+      return Math.max(0, cards.length - perView());
+    }
+
+    function buildDots(){
+      dotsWrap.innerHTML = '';
+      for(let i=0;i<=maxIndex();i++){
+        const b = document.createElement('button');
+        b.className = 'dot-btn' + (i === index ? ' active' : '');
+        b.setAttribute('aria-label','Go to review group ' + (i+1));
+        b.addEventListener('click',()=>goTo(i));
+        dotsWrap.appendChild(b);
+      }
+    }
+
+    function goTo(i){
+      index = Math.max(0, Math.min(i, maxIndex()));
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      const gap = 18;
+      track.style.transform = `translateX(-${index * (cardWidth + gap)}px)`;
+      [...dotsWrap.children].forEach((d,n)=>d.classList.toggle('active',n===index));
+    }
+
+    function nextSlide(){ goTo(index >= maxIndex() ? 0 : index + 1); }
+    function prevSlide(){ goTo(index <= 0 ? maxIndex() : index - 1); }
+
+    function restartAuto(){
+      clearInterval(timer);
+      timer = setInterval(nextSlide, 4500);
+    }
+
+    next.addEventListener('click',()=>{nextSlide();restartAuto()});
+    prev.addEventListener('click',()=>{prevSlide();restartAuto()});
+    document.querySelector('.reviews-wrap').addEventListener('mouseenter',()=>clearInterval(timer));
+    document.querySelector('.reviews-wrap').addEventListener('mouseleave',restartAuto);
+    window.addEventListener('resize',()=>{buildDots();goTo(Math.min(index,maxIndex()))});
+
+    buildDots();
+    goTo(0);
+    restartAuto();
+  </script>
+</body>
+</html>
