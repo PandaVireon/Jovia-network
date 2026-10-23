@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Confirmed — Jovia Network</title>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: white;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(124,58,237,.28), transparent 40%),
+        linear-gradient(145deg,#020617,#081735 50%,#020617);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 540px;
+      text-align: center;
+    }
+
+    .brand {
+      height: 38px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand img {
+      display: block;
+      width: auto;
+      height: 38px;
+      max-width: 220px;
+      object-fit: contain;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 28px 32px;
+      border-radius: 30px;
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.08),
+        rgba(255,255,255,.025)
+      );
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow:
+        0 35px 90px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #c084fc, transparent);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(124,58,237,.16);
+      border: 1px solid rgba(192,132,252,.28);
+      color: #e9d5ff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #c084fc;
+      box-shadow: 0 0 14px rgba(192,132,252,.9);
+    }
+
+    /* Single premium verification orb — no border, no second circle */
+    .check {
+      width: 96px;
+      height: 96px;
+      margin: 28px auto 24px;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg,
+          rgba(255,255,255,.42) 0%,
+          rgba(110,231,183,.98) 18%,
+          rgba(16,185,129,1) 55%,
+          rgba(4,120,87,1) 100%
+        );
+      box-shadow:
+        inset 7px 7px 16px rgba(255,255,255,.24),
+        inset -10px -12px 22px rgba(0,0,0,.22),
+        0 0 24px rgba(52,211,153,.28),
+        0 0 52px rgba(52,211,153,.20),
+        0 14px 38px rgba(0,0,0,.30);
+      animation: appear .65s cubic-bezier(.2,.8,.2,1) both,
+                 glow 2.2s ease-in-out 1s infinite;
+    }
+
+    .check::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background:
+        linear-gradient(
+          125deg,
+          transparent 32%,
+          rgba(255,255,255,.48) 45%,
+          rgba(255,255,255,.10) 51%,
+          transparent 62%
+        );
+      transform: translateX(-75%) rotate(2deg);
+      animation: shine 1.25s cubic-bezier(.2,.8,.2,1) .55s forwards;
+      pointer-events: none;
+    }
+
+    .check::after {
+      content: "";
+      position: absolute;
+      width: 34px;
+      height: 15px;
+      top: 18px;
+      left: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.20);
+      filter: blur(7px);
+      transform: rotate(-25deg);
+      pointer-events: none;
+    }
+
+    .check svg {
+      position: relative;
+      z-index: 2;
+      width: 66px;
+      height: 66px;
+      overflow: visible;
+    }
+
+    .check-mark {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      filter:
+        drop-shadow(0 1px 1px rgba(0,0,0,.22))
+        drop-shadow(0 0 5px rgba(255,255,255,.95))
+        drop-shadow(0 0 11px rgba(167,243,208,.85));
+      animation: drawCheck .72s cubic-bezier(.65,0,.35,1) .3s forwards;
+    }
+
+    .spark {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #d1fae5;
+      box-shadow: 0 0 10px rgba(167,243,208,.9);
+      opacity: 0;
+      animation: spark .8s ease-out .75s both;
+    }
+
+    .spark.one { top: 9px; right: 22px; }
+    .spark.two { bottom: 18px; left: 9px; animation-delay: .9s; }
+    .spark.three { top: 23px; left: 7px; animation-delay: 1s; }
+
+    h1 {
+      font-size: clamp(30px,8vw,42px);
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      font-weight: 850;
+    }
+
+    .subtitle {
+      max-width: 420px;
+      margin: 14px auto 0;
+      color: #9ba9c0;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .reference {
+      margin-top: 25px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      background: rgba(2,6,23,.38);
+      border: 1px solid rgba(255,255,255,.07);
+      color: #8fa0ba;
+      font-size: 11px;
+      line-height: 1.5;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .reference strong {
+      color: #dce7f8;
+      font-weight: 750;
+    }
+
+    .progress {
+      height: 4px;
+      margin-top: 24px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 100%;
+      margin-left: auto;
+      border-radius: inherit;
+      background: linear-gradient(90deg,#2563eb,#c084fc,#dbeafe);
+      box-shadow: 0 0 16px rgba(192,132,252,.55);
+      animation: drain 5s linear forwards;
+    }
+
+    .footer {
+      margin-top: 20px;
+      color: #53627a;
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .footer strong { color: #72809a; }
+
+    @keyframes appear {
+      0% { transform: scale(.72); opacity: 0; }
+      65% { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes glow {
+      0%,100% {
+        box-shadow:
+          inset 7px 7px 16px rgba(255,255,255,.24),
+          inset -10px -12px 22px rgba(0,0,0,.22),
+          0 0 24px rgba(52,211,153,.28),
+          0 0 52px rgba(52,211,153,.20),
+          0 14px 38px rgba(0,0,0,.30);
+      }
+      50% {
+        box-shadow:
+          inset 8px 8px 18px rgba(255,255,255,.30),
+          inset -10px -12px 22px rgba(0,0,0,.18),
+          0 0 34px rgba(52,211,153,.42),
+          0 0 68px rgba(52,211,153,.28),
+          0 14px 38px rgba(0,0,0,.30);
+      }
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-75%) rotate(2deg); }
+      100% { transform: translateX(75%) rotate(2deg); }
+    }
+
+    @keyframes spark {
+      0% { transform: scale(.2); opacity: 0; }
+      35% { opacity: 1; }
+      100% { transform: translateY(-6px) scale(1); opacity: 0; }
+    }
+
+    @keyframes drain {
+      from { width: 100%; }
+      to { width: 0%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .check,
+      .check-mark,
+      .spark,
+      .progress-bar {
+        animation: none !important;
+      }
+      .check-mark { stroke-dashoffset: 0; }
+      .progress-bar { width: 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <div class="brand">
+      <img src="logo.PNG" alt="Jovia Network" />
+    </div>
+
+    <section class="card">
+      <div class="badge">
+        <span class="dot"></span>
+        Jovia Network Secure Payment
+      </div>
+
+      <div class="check" aria-label="Payment confirmed">
+        <span class="spark one"></span>
+        <span class="spark two"></span>
+        <span class="spark three"></span>
+
+        <svg viewBox="0 0 55 55" aria-hidden="true">
+          <path class="check-mark" d="M13 28l10 10L43 17"></path>
+        </svg>
+      </div>
+
+      <h1>Payment Confirmed</h1>
+
+      <p class="subtitle">
+        Your payment has been successfully received.
+        Your Jovia Network activation is ready to be completed.
+      </p>
+
+      <div class="reference">
+        Reference: <strong id="reference">Processing...</strong>
+      </div>
+
+      <div class="progress" aria-hidden="true">
+        <div class="progress-bar"></div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Payments are processed securely through <strong>Bachs</strong>.<br />
+      Jovia Network
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const reference =
+      params.get("ref") ||
+      params.get("reference") ||
+      "Bachs Payment";
+
+    const name = params.get("name") || "";
+    const email = params.get("email") || "";
+    const phone = params.get("phone") || "";
+    const packageName =
+      params.get("package") ||
+      params.get("packageName") ||
+      "";
+    const amount = params.get("amount") || "";
+
+    document.getElementById("reference").textContent = reference;
+
+    const message =
+`Hello Jovia Admin 👋
+
+🚀I have completed my payment and I'm ready to complete my activation.
+
+👤Name: ${name}
+📩Email: ${email}
+🤳Phone: ${phone}
+
+💎Package: ${packageName}
+💰Amount: ₦${amount}
+
+💡Reference: ${reference}
+
+PAID VIA VERIFIED CHECKOUT✅
+
+Please comfirm and complete my activation. Thank you.`;
+
+    const telegramUrl =
+      "https://t.me/joviaheadadmin?text=" +
+      encodeURIComponent(message);
+
+    setTimeout(() => {
+      window.location.replace(telegramUrl);
+    }, 5000);
+  </script>
+</body>
+</html>
