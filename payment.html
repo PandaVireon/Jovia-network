@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Jovia Network — Complete Payment</title>
+<meta name="theme-color" content="#0b0b20">
+<style>
+  :root{
+    --bg:#080817;
+    --panel:rgba(255,255,255,.055);
+    --panel2:rgba(255,255,255,.035);
+    --line:rgba(255,255,255,.09);
+    --text:#f6f5ff;
+    --muted:#aaa8c7;
+    --green:#a78bfa;
+    --green2:#6d5dfc;
+    --gold:#55d6ff;
+    --cyan:#55d6ff;
+    --purple:#c4b5fd;
+    --shadow:0 28px 80px rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box}
+  button,input,select,textarea{
+    font:inherit;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue","Segoe UI",Arial,sans-serif;
+    background:
+      radial-gradient(circle at 15% 0%,rgba(109,93,252,.20),transparent 34%),
+      radial-gradient(circle at 90% 12%,rgba(85,214,255,.10),transparent 30%),
+      linear-gradient(180deg,#11112b 0%,#080817 48%,#050510 100%);
+    overflow-x:hidden;
+  }
+
+  body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.28;
+    background-image:
+      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:44px 44px;
+    mask-image:linear-gradient(to bottom,black,transparent 82%);
+  }
+
+ .shell{
+  width:min(760px,calc(100% - 28px));
+  margin:0 auto;
+  padding:18px 0 50px;
+  position:relative;
+  z-index:1;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:24px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+  letter-spacing:-.03em;
+}
+
+.brand-mark{
+  width:auto;
+  height:36px;
+  display:flex;
+  align-items:center;
+  overflow:visible;
+  background:none;
+  border:none;
+  box-shadow:none;
+  border-radius:0;
+  padding:0;
+}
+
+.brand-mark img{
+  width:auto;
+  height:36px;
+  display:block;
+  object-fit:contain;
+  padding:0;
+}
+
+  .secure{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 11px;
+    border:1px solid rgba(255,255,255,.075);
+    border-radius:999px;
+    background:rgba(255,255,255,.035);
+    color:#a8bdb2;
+    font-size:10px;
+    font-weight:700;
+  }
+
+  .secure-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px rgba(113,240,170,.8);
+  }
+
+  .hero{
+    text-align:center;
+    padding:20px 4px 26px;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 11px;
+    border-radius:999px;
+    background:rgba(113,240,170,.065);
+    border:1px solid rgba(113,240,170,.13);
+    color:#c4b5fd;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+  }
+
+  h1{
+    margin:15px 0 8px;
+    font-size:clamp(29px,7vw,48px);
+    line-height:1;
+    letter-spacing:-.055em;
+  }
+
+  .hero p{
+    margin:0 auto;
+    max-width:520px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+  }
+
+  .card{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:
+      linear-gradient(145deg,rgba(255,255,255,.085),rgba(255,255,255,.025) 48%,rgba(255,255,255,.04));
+    border-radius:30px;
+    box-shadow:var(--shadow),inset 0 1px rgba(255,255,255,.10);
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+  }
+
+  .card:before{
+    content:"";
+    position:absolute;
+    width:260px;height:260px;
+    left:-150px;top:-170px;
+    background:rgba(113,240,170,.11);
+    filter:blur(45px);
+    pointer-events:none;
+  }
+  .card:after{
+    content:"";
+    position:absolute;
+    width:220px;height:220px;
+    right:-130px;bottom:-130px;
+    background:rgba(96,188,255,.08);
+    filter:blur(55px);
+    pointer-events:none;
+  }
+
+  .payment-card{padding:22px}
+
+  .package-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:14px;
+    padding-bottom:20px;
+    border-bottom:1px solid rgba(255,255,255,.065);
+  }
+
+  .package-label{
+    color:#81968b;
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.15em;
+    font-weight:800;
+  }
+
+  .package-name{
+    margin-top:7px;
+    font-size:27px;
+    font-weight:850;
+    letter-spacing:-.04em;
+  }
+
+  .amount{
+    text-align:right;
+  }
+
+  .amount small{
+    display:block;
+    color:#80978b;
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.13em;
+    margin-bottom:4px;
+  }
+
+  .amount strong{
+    font-size:29px;
+    letter-spacing:-.045em;
+  }
+
+  .details{
+    padding:20px 0 4px;
+  }
+
+  .section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+  }
+
+  .section-title span:first-child{
+    font-size:12px;
+    font-weight:800;
+  }
+
+  .section-title span:last-child{
+    font-size:9px;
+    color:#789086;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+  }
+
+  .account-box{
+    display:grid;
+    gap:9px;
+  }
+
+  .row{
+    min-height:63px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:13px 14px;
+    border:1px solid rgba(255,255,255,.065);
+    border-radius:18px;
+    background:rgba(0,0,0,.13);
+  }
+
+  .row-copy{min-width:0}
+  .row-label{
+    display:block;
+    color:#72887d;
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-weight:800;
+    margin-bottom:5px;
+  }
+
+  .row-value{
+    display:block;
+    color:#edf7f1;
+    font-size:15px;
+    font-weight:750;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  .copy-btn{
+    flex:0 0 auto;
+    width:42px;height:42px;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:14px;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    color:#d9e9df;
+    background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+    box-shadow:inset 0 1px rgba(255,255,255,.14),0 10px 25px rgba(0,0,0,.22);
+    transition:.22s ease;
+  }
+
+  .copy-btn:hover{transform:translateY(-1px);border-color:rgba(113,240,170,.28)}
+  .copy-btn:active{transform:scale(.94)}
+  .copy-btn.copied{
+    color:#10102a;
+    background:linear-gradient(145deg,#ddd6fe,#8b7cff);
+    border-color:rgba(154,255,194,.7);
+    box-shadow:0 0 28px rgba(91,233,155,.22),inset 0 1px rgba(255,255,255,.65);
+  }
+
+  .copy-btn svg{width:17px;height:17px}
+
+  .amount-strip{
+    margin-top:16px;
+    box-shadow:inset 0 1px rgba(255,255,255,.06);
+    padding:17px;
+    border-radius:21px;
+    border:1px solid rgba(113,240,170,.13);
+    background:
+      linear-gradient(135deg,rgba(113,240,170,.09),rgba(255,255,255,.025));
+  }
+
+  .amount-strip .strip-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#8ea59a;
+    font-size:10px;
+    margin-bottom:7px;
+  }
+
+  .amount-strip .strip-top b{
+    color:#9be8ff;
+    font-weight:800;
+  }
+
+  .pay-amount{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .pay-amount strong{
+    font-size:35px;
+    letter-spacing:-.055em;
+  }
+
+  .pay-amount span{
+    color:#86a093;
+    font-size:10px;
+    font-weight:700;
+  }
+
+  .instructions{
+    margin-top:18px;
+    padding:16px;
+    border-radius:20px;
+    background:rgba(255,255,255,.026);
+    border:1px solid rgba(255,255,255,.055);
+  }
+
+  .instructions h3{
+    margin:0 0 9px;
+    font-size:12px;
+  }
+
+  .instructions ol{
+    margin:0;
+    padding-left:20px;
+    color:#8da399;
+    font-size:11px;
+    line-height:1.8;
+  }
+
+  .notice{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-top:14px;
+    padding:13px;
+    border-radius:17px;
+    background:rgba(241,199,107,.055);
+    border:1px solid rgba(241,199,107,.11);
+    color:#8acfe8;
+    font-size:10px;
+    line-height:1.6;
+  }
+
+  .notice-icon{
+    flex:0 0 auto;
+    width:24px;height:24px;
+    display:grid;place-items:center;
+    border-radius:9px;
+    background:rgba(241,199,107,.09);
+    color:var(--gold);
+  }
+
+  .bottom-note{
+    text-align:center;
+    padding:18px 10px 0;
+    color:#63776d;
+    font-size:9px;
+    line-height:1.7;
+  }
+
+  .loading,.error{
+    min-height:220px;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    padding:30px;
+    color:#8da399;
+    font-size:12px;
+  }
+
+  .spinner{
+    width:25px;height:25px;border-radius:50%;
+    border:2px solid rgba(255,255,255,.12);
+    border-top-color:var(--green);
+    animation:spin .8s linear infinite;
+    margin:0 auto 12px;
+  }
+
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+
+  /* ===== Initial notice + receipt confirmation modal ===== */
+  .modal-layer{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:grid;
+    place-items:center;
+    padding:18px;
+    background:rgba(1,6,4,.72);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    opacity:1;
+    visibility:visible;
+    transition:.28s ease;
+  }
+
+  .modal-layer.hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+
+  .modal-card{
+    width:min(520px,100%);
+    max-height:min(88vh,760px);
+    overflow:auto;
+    position:relative;
+    border-radius:30px;
+    border:1px solid rgba(255,255,255,.115);
+    background:
+      radial-gradient(circle at 15% 0%,rgba(113,240,170,.11),transparent 34%),
+      linear-gradient(145deg,rgba(255,255,255,.115),rgba(255,255,255,.045) 55%,rgba(255,255,255,.025));
+    box-shadow:
+      0 35px 100px rgba(0,0,0,.62),
+      inset 0 1px rgba(255,255,255,.16);
+    backdrop-filter:blur(30px);
+    -webkit-backdrop-filter:blur(30px);
+    transform:translateY(0) scale(1);
+    animation:modalIn .35s cubic-bezier(.2,.8,.2,1);
+  }
+
+  @keyframes modalIn{
+    from{opacity:0;transform:translateY(18px) scale(.97)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+  }
+
+  .modal-inner{padding:22px}
+
+  .modal-icon{
+    width:54px;height:54px;
+    display:grid;place-items:center;
+    border-radius:19px;
+    margin-bottom:16px;
+    color:#10102a;
+    background:linear-gradient(145deg,#d5ffe2,#a78bfa);
+    box-shadow:0 0 35px rgba(100,237,161,.2),inset 0 1px rgba(255,255,255,.8);
+  }
+
+  .modal-icon svg{width:25px;height:25px}
+
+  .modal-kicker{
+    color:#c4b5fd;
+    font-size:9px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.15em;
+    margin-bottom:7px;
+  }
+
+  .modal-title{
+    margin:0;
+    font-size:25px;
+    letter-spacing:-.045em;
+  }
+
+  .modal-text{
+    margin:10px 0 0;
+    color:#93a89e;
+    font-size:12px;
+    line-height:1.75;
+  }
+
+  .important-note{
+    margin-top:16px;
+    padding:18px;
+    border-radius:20px;
+    background:linear-gradient(145deg,rgba(255,45,45,.19),rgba(120,0,0,.12));
+    border:2px solid rgba(255,65,65,.72);
+    box-shadow:0 0 28px rgba(255,35,35,.16),inset 0 1px rgba(255,255,255,.08);
+  }
+
+  .important-note strong{
+    display:block;
+    color:#ff4545;
+    font-size:15px;
+    font-weight:950;
+    line-height:1.4;
+    letter-spacing:.01em;
+    margin-bottom:9px;
+    text-transform:uppercase;
+    text-shadow:0 0 14px rgba(255,35,35,.22);
+  }
+
+  .important-note p{
+    margin:0;
+    color:#ffd0d0;
+    font-size:12px;
+    font-weight:750;
+    line-height:1.75;
+  }
+
+  .important-note p b{
+    color:#ff5555;
+    font-weight:950;
+  }
+
+  .modal-action{
+    width:100%;
+    margin-top:17px;
+    min-height:58px;
+    border:1px solid rgba(154,255,194,.35);
+    border-radius:18px;
+    color:#10102a;
+    font-size:15px;
+    font-weight:900;
+    cursor:pointer;
+    background:linear-gradient(145deg,#c9ffda,#55e996);
+    box-shadow:0 14px 35px rgba(65,225,142,.16),inset 0 1px rgba(255,255,255,.75);
+    transition:.2s ease;
+  }
+
+  .modal-action:active{transform:scale(.98)}
+
+  .confirm-payment-main{
+    font-size:17px;
+    min-height:64px;
+    letter-spacing:-.02em;
+  }
+
+  .modal-close{
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:38px;
+    height:38px;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    color:#b7c9c0;
+    background:rgba(255,255,255,.045);
+    cursor:pointer;
+    box-shadow:inset 0 1px rgba(255,255,255,.10);
+    transition:.2s ease;
+  }
+  .modal-close:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateY(-1px)}
+  .modal-close:active{transform:scale(.94)}
+  .modal-close svg{width:17px;height:17px}
+
+  .cancel-btn{
+    width:100%;
+    min-height:48px;
+    margin-top:10px;
+    border:1px solid rgba(255,92,92,.30);
+    border-radius:16px;
+    color:#ffb2b2;
+    background:linear-gradient(145deg,rgba(255,76,76,.15),rgba(255,76,76,.06));
+    font-size:13px;
+    font-weight:900;
+    cursor:pointer;
+    transition:.2s ease;
+  }
+  .cancel-btn:hover{background:linear-gradient(145deg,rgba(255,76,76,.22),rgba(255,76,76,.08));transform:translateY(-1px)}
+  .cancel-btn:active{transform:scale(.98)}
+
+  .confirm-modal .modal-inner{padding:20px}
+
+  .pending-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 10px;
+    border-radius:999px;
+    color:#a8c0b4;
+    font-size:9px;
+    font-weight:900;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.075);
+  }
+
+  .pending-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:#55d6ff;
+    box-shadow:0 0 0 0 rgba(241,199,107,.45);
+    animation:pendingPulse 1.35s infinite;
+  }
+
+  @keyframes pendingPulse{
+    0%{box-shadow:0 0 0 0 rgba(241,199,107,.45)}
+    70%{box-shadow:0 0 0 8px rgba(241,199,107,0)}
+    100%{box-shadow:0 0 0 0 rgba(241,199,107,0)}
+  }
+
+  .pending-title{
+    margin:15px 0 5px;
+    font-size:23px;
+    letter-spacing:-.045em;
+  }
+
+  .pending-copy{
+    margin:0;
+    color:#82988d;
+    font-size:11px;
+    line-height:1.65;
+  }
+
+  .receipt-upload{
+    margin-top:17px;
+    border:1px dashed rgba(241,199,107,.26);
+    border-radius:22px;
+    padding:15px;
+    background:
+      radial-gradient(circle at 15% 0%,rgba(241,199,107,.07),transparent 42%),
+      rgba(113,240,170,.025);
+  }
+
+  .receipt-input{
+    display:none;
+  }
+
+  .upload-zone{
+    min-height:126px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    text-align:center;
+    cursor:pointer;
+    border-radius:17px;
+    color:#8ea59a;
+  }
+
+  .upload-zone:hover{background:rgba(255,255,255,.025)}
+
+  .upload-icon{
+    width:43px;height:43px;
+    display:grid;place-items:center;
+    border-radius:15px;
+    color:#9af4bd;
+    background:rgba(113,240,170,.08);
+    border:1px solid rgba(113,240,170,.13);
+  }
+
+  .upload-icon svg{width:20px;height:20px}
+
+  .upload-zone b{
+    color:#dbe9e1;
+    font-size:11px;
+  }
+
+  .upload-zone span{
+    color:#71867c;
+    font-size:9px;
+  }
+
+  .receipt-preview{
+    display:none;
+    width:max-content;
+    max-width:100%;
+    margin:12px auto 0;
+    overflow:hidden;
+    border-radius:17px;
+    border:1px solid rgba(255,255,255,.08);
+    background:transparent;
+    line-height:0;
+  }
+
+  .receipt-preview.visible{display:block}
+
+  .receipt-image{
+    display:block;
+    width:auto;
+    height:auto;
+    max-width:100%;
+    max-height:360px;
+    object-fit:contain;
+    background:transparent;
+  }
+
+  .receipt-file{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+  }
+
+  .file-badge{
+    width:34px;height:34px;
+    display:grid;place-items:center;
+    border-radius:11px;
+    background:rgba(113,240,170,.08);
+    color:#8ff0b7;
+    font-size:9px;
+    font-weight:900;
+  }
+
+  .file-info{min-width:0}
+  .file-info b{
+    display:block;
+    color:#dcebe2;
+    font-size:10px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .file-info span{
+    display:block;
+    margin-top:3px;
+    color:#6e8378;
+    font-size:8px;
+  }
+
+  .confirm-actions{
+    display:none;
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-top:16px;
+  }
+
+  .confirm-actions.visible{display:grid}
+
+  .confirm-btn{
+    min-height:62px;
+    width:100%;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:17px;
+    color:white;
+    font-size:14px;
+    font-weight:900;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    transition:.2s ease;
+    box-shadow:inset 0 1px rgba(255,255,255,.15),0 10px 25px rgba(0,0,0,.18);
+  }
+
+  .confirm-btn:active{transform:scale(.97)}
+  .confirm-btn.telegram{background:linear-gradient(145deg,#39aeea,#168ed0)}
+  .confirm-btn svg{width:16px;height:16px;flex:0 0 auto}
+
+  .confirm-btn.redirecting{
+    opacity:.72;
+    pointer-events:none;
+  }
+
+  .receipt-note{
+    margin-top:11px;
+    color:#697e73;
+    text-align:center;
+    font-size:8px;
+    line-height:1.55;
+  }
+
+  @media(max-width:520px){
+    .shell{width:min(100% - 18px,760px);padding-top:12px}
+    .payment-card{padding:16px}
+    .package-name{font-size:21px}
+    .amount strong{font-size:21px}
+    .row{min-height:68px}
+    .row-label{font-size:9px}
+    .row-value{font-size:15px}
+  }
+</style>
+</head>
+
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="logo.png" alt="Jovia Network logo">
+      </div>
+    </div>
+    <div class="secure"><span class="secure-dot"></span> Secure payment</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">
+      <span>✦</span>
+      One time payment
+    </div>
+    <h1>Complete your payment</h1>
+    <p>Your selected Jovia Network package is ready. Transfer the exact amount below to the account details provided.</p>
+  </section>
+
+  <main id="app" class="card">
+    <div class="loading">
+      <div>
+        <div class="spinner"></div>
+        Preparing your payment details…
+      </div>
+    </div>
+  </main>
+
+  <div class="bottom-note">
+    After payment, use <b>Confirm payment now</b> to submit your receipt and continue.
+  </div>
+</div>
+
+<script>
+  /*
+    Replace this with your deployed evermore-api Edge Function URL.
+    Example:
+    https://YOUR_PROJECT_REF.supabase.co/functions/v1/evermore-api
+  */
+  const EVERMORE_API_URL = "https://cmauzinncurdfudjbvnq.supabase.co/functions/v1/evermore-api";
+
+  // Read checkout details from localStorage. Customer details are never put in the URL.
+  // rewards.html stores the selected package and customer information under joviaCheckout.
+  function getPaymentState(){
+    let saved = null;
+    try {
+      saved = JSON.parse(localStorage.getItem("joviaCheckout") || "null");
+      if (!saved) saved = JSON.parse(localStorage.getItem("evermoreCheckout") || "null");
+    } catch (error) {
+      console.warn("Could not read saved checkout session.", error);
+    }
+
+    if (!saved || !saved.package) return saved;
+
+    const rawName = String(saved.package.name || saved.package.package_name || saved.package.packageName || "");
+    const isSilver = /silver|trial/i.test(rawName);
+    const packageName = isSilver ? "Jovia - Silver" : "Jovia - Gold";
+    // Do not hardcode the amount here. The live price is loaded from the admin-saved Supabase config.
+    saved.package = { ...saved.package, name: packageName, package_name: packageName };
+    try { localStorage.setItem("joviaCheckout", JSON.stringify(saved)); } catch (error) {}
+    return saved;
+  }
+  const state = getPaymentState();
+
+  const app = document.getElementById("app");
+
+  function escapeHtml(value){
+    return String(value ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function makeReference(){
+    const stamp = Date.now().toString(36).toUpperCase();
+    const random = Math.random().toString(36).slice(2,7).toUpperCase();
+    return `JOV-${stamp}-${random}`;
+  }
+
+  async function copyAccount(button){
+    const account = document.getElementById("accountNumber").textContent.trim();
+
+    try{
+      await navigator.clipboard.writeText(account);
+    }catch{
+      const area = document.createElement("textarea");
+      area.value = account;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      document.execCommand("copy");
+      area.remove();
+    }
+
+    const old = button.innerHTML;
+    button.classList.add("copied");
+    button.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m5 12 4 4L19 6"/>
+      </svg>
+    `;
+
+    setTimeout(()=>{
+      button.classList.remove("copied");
+      button.innerHTML = old;
+    },2000);
+  }
+
+  function render(settings, pkg){
+    window.__paymentSettings = settings || {};
+    const selectedName = String(state?.package?.name || state?.package?.package_name || "Jovia - Silver");
+    const isSilver = /silver|trial/i.test(selectedName);
+    const name = isSilver ? "Jovia - Silver" : "Jovia - Gold";
+    const amount = Number(pkg?.amount_ngn ?? pkg?.amount ?? (isSilver ? 9000 : 15000));
+    const priceNgn = `₦${amount.toLocaleString("en-NG")}`;
+    // Keep the backend's current amount in the checkout so Telegram preview uses the same price.
+    try {
+      const checkout = JSON.parse(localStorage.getItem("joviaCheckout") || "null") || state || {};
+      checkout.package = { ...(checkout.package || {}), name, package_name: name, package_key: isSilver ? "trial" : "premium", amount, amount_ngn: amount, price: priceNgn, price_ngn: priceNgn };
+      localStorage.setItem("joviaCheckout", JSON.stringify(checkout));
+    } catch (error) { console.warn("Could not sync live package price to checkout storage.", error); }
+    app.innerHTML = `
+      <div class="payment-card">
+        <div class="package-head">
+          <div>
+            <div class="package-label">Package selected</div>
+            <div class="package-name">${escapeHtml(name)}</div>
+          </div>
+          <div class="amount">
+            <small>Amount</small>
+            <strong>${escapeHtml(priceNgn)}</strong>
+          </div>
+        </div>
+
+        <section class="details">
+          <div class="section-title">
+            <span>Transfer to</span>
+            <span>Bank details</span>
+          </div>
+
+          <div class="account-box">
+            <div class="row">
+              <div class="row-copy">
+                <span class="row-label">Bank name</span>
+                <span class="row-value">${escapeHtml(settings.bank_name || "Not configured yet")}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="row-copy">
+                <span class="row-label">Account name</span>
+                <span class="row-value">${escapeHtml(settings.account_name || "Not configured yet")}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="row-copy">
+                <span class="row-label">Account number</span>
+                <span id="accountNumber" class="row-value">${escapeHtml(settings.account_number || "Not configured yet")}</span>
+              </div>
+              <button class="copy-btn" type="button" aria-label="Copy account number" onclick="copyAccount(this)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="11" height="11" rx="2"/>
+                  <path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="amount-strip">
+            <div class="strip-top">
+              <span>Exact amount to transfer</span>
+              <b>${escapeHtml(name)}</b>
+            </div>
+            <div class="pay-amount">
+              <strong>₦${amount.toLocaleString("en-NG")}</strong>
+              <span>Please transfer the exact amount</span>
+            </div>
+          </div>
+
+          <div class="instructions">
+            <h3>How to complete payment</h3>
+            <ol>
+              <li>Copy the account number above and open your preferred banking app.</li>
+              <li>Make <strong>only one transfer</strong> for the exact amount shown for your selected package.</li>
+              <li>Double-check the bank name, account name, account number and amount before you send the money.</li>
+              <li>Keep your payment receipt safely after the transfer is successful.</li>
+            </ol>
+          </div>
+
+
+          <button class="modal-action confirm-payment-main" type="button" onclick="openConfirmModal()">
+            Confirm Payment
+          </button>
+        </section>
+      </div>
+    `;
+  }
+
+  async function load(){
+    if(!state || !state.package){
+      app.innerHTML = `
+        <div class="error">
+          <div>
+            <strong style="display:block;color:#eef8f2;margin-bottom:8px">No payment session found.</strong>
+            Please return to the package selection page and continue again.
+          </div>
+        </div>`;
+      return;
+    }
+
+    try{
+      if(EVERMORE_API_URL === "YOUR_EVERMORE_API_URL"){
+        throw new Error("API URL not configured");
+      }
+
+      const response = await fetch(`${EVERMORE_API_URL}?action=config`,{
+        method:"GET",
+        cache:"no-store",
+        credentials:"omit",
+        headers:{
+          "Accept":"application/json"
+        }
+      });
+
+      const data = await response.json();
+
+      if(!response.ok || !data.success){
+        throw new Error(data.message || "Could not load payment configuration.");
+      }
+
+      const selectedName = /silver|trial/i.test(String(state?.package?.name || state?.package?.package_name || ""))
+        ? "Silver"
+        : "Gold";
+
+      const pkg = (data.packages || []).find(p =>
+        p.package_name === selectedName ||
+        p.package_name === (selectedName === "Silver" ? "Ever - Trial" : "Ever - Premium") ||
+        p.package_key === (selectedName === "Silver" ? "trial" : "premium")
+      );
+
+      if(!pkg){
+        throw new Error("Selected package could not be found.");
+      }
+
+      render(data.settings || {},pkg);
+
+    }catch(error){
+      console.error("Jovia Network payment configuration error:", error);
+
+      app.innerHTML = `
+        <div class="error">
+          <div>
+            <strong style="display:block;color:#ffd7d7;margin-bottom:8px">
+              Payment details could not be loaded
+            </strong>
+            <span style="display:block;color:#9eaaa4;line-height:1.6">
+              Jovia Network could not retrieve the live payment configuration from Supabase.
+              Please refresh and try again.
+            </span>
+          </div>
+        </div>`;
+    }
+  }
+
+
+
+  function clearReceiptSelection(){
+    const input = document.getElementById("receiptInput");
+    const preview = document.getElementById("receiptPreview");
+    const actions = document.getElementById("confirmActions");
+
+    if(input) input.value = "";
+    if(preview){
+      preview.innerHTML = "";
+      preview.classList.remove("visible");
+    }
+    if(actions) actions.classList.remove("visible");
+  }
+
+  function closeNotice(){
+    document.getElementById("noticeModal").classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  function openConfirmModal(){
+    const modal = document.getElementById("confirmModal");
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeConfirmModal(){
+    clearReceiptSelection();
+    const modal = document.getElementById("confirmModal");
+    modal.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  window.addEventListener("DOMContentLoaded", function(){
+    const confirmModal = document.getElementById("confirmModal");
+    if(confirmModal){
+      confirmModal.addEventListener("click", function(event){
+        if(event.target === this) closeConfirmModal();
+      });
+    }
+  });
+
+  function handleReceipt(event){
+    const file = event.target.files && event.target.files[0];
+    if(!file) return;
+
+    const preview = document.getElementById("receiptPreview");
+    const actions = document.getElementById("confirmActions");
+
+    preview.innerHTML = "";
+
+    if(file.type.startsWith("image/")){
+      // Use a temporary in-memory data URL for the preview.
+      // No Blob URL, fetch, download, or Storage upload is created.
+      const reader = new FileReader();
+      reader.onload = function(){
+        const img = document.createElement("img");
+        img.className = "receipt-image";
+        img.src = reader.result;
+        img.alt = "Selected payment receipt";
+        preview.innerHTML = "";
+        preview.appendChild(img);
+        preview.classList.add("visible");
+        actions.classList.add("visible");
+      };
+      reader.readAsDataURL(file);
+    }else{
+      const fileWrap = document.createElement("div");
+      fileWrap.className = "receipt-file";
+      fileWrap.innerHTML = `
+        <div class="file-badge">PDF</div>
+        <div class="file-info">
+          <b>${escapeHtml(file.name)}</b>
+          <span>${(file.size / 1024 / 1024).toFixed(2)} MB · Selected receipt</span>
+        </div>
+      `;
+      preview.appendChild(fileWrap);
+      preview.classList.add("visible");
+      actions.classList.add("visible");
+    }
+  }
+
+  function getCheckoutMessage(){
+    const checkout = JSON.parse(localStorage.getItem("joviaCheckout") || "null") || JSON.parse(localStorage.getItem("evermoreCheckout") || "null") || {};
+    const reference = checkout.transactionReference || makeReference();
+    checkout.transactionReference = reference;
+    localStorage.setItem("joviaCheckout", JSON.stringify(checkout));
+
+    const fullName = String(
+      checkout.fullName || checkout.name || checkout.customerName || ""
+    ).trim();
+    const email = String(
+      checkout.email || checkout.customerEmail || ""
+    ).trim();
+    const phone = String(
+      checkout.phone || checkout.phoneNumber || checkout.customerPhone || ""
+    ).trim();
+
+    const rawPackageName = checkout.package?.name || checkout.package?.package_name || checkout.package?.packageName || "";
+    const isSilver = /silver|trial/i.test(String(rawPackageName));
+    const packageName = isSilver ? "Jovia - Silver" : "Jovia - Gold";
+    const amountValue = Number(checkout.package?.amount_ngn ?? checkout.package?.amount ?? (isSilver ? 9000 : 15000));
+    const amount = `₦${amountValue.toLocaleString("en-NG")}`;
+
+    const message =
+      `🚀 Hello Jovia Network Admin, I have made my payment for my account activation, Here are my details:\n\n` +
+      `👤 Name: ${fullName || "Not provided"}\n` +
+      `📧 Email: ${email || "Not provided"}\n` +
+      `📱 Phone: ${phone || "Not provided"}\n\n` +
+      
+      
+      `Package: ${packageName}\n` +
+      `💰 Amount Paid: ${amount || "Not provided"}\n\n` +
+      
+      `💳 Ref: ${reference || "Not provided"}\n\n` +
+      
+      `PAID VIA VERIFIED MERCHANT ✅\n\n` +
+      
+      `Kindly confirm and activate my account.`;
+
+    return {message, checkout};
+  }
+
+  function buildTelegramUrl(rawUrl, message){
+    if(!rawUrl) return "";
+
+    try{
+      const u = new URL(rawUrl);
+      const host = u.hostname.toLowerCase();
+      if(host !== "t.me" && host !== "telegram.me" && host !== "www.t.me" && host !== "www.telegram.me"){
+        return "";
+      }
+
+      let path = u.pathname.replace(/^\/+|\/+$/g, "");
+
+      // Do not use Telegram's share/forward URL. If the configured value is a
+      // share URL containing a direct t.me username, use that username instead.
+      if(path === "share/url" || path === "share"){
+        const shared = u.searchParams.get("url") || "";
+        try{
+          const sharedUrl = new URL(shared);
+          if(/^(t\.me|telegram\.me)$/i.test(sharedUrl.hostname.replace(/^www\./i,""))){
+            path = sharedUrl.pathname.replace(/^\/+|\/+$/g, "");
+          }
+        }catch(e){}
+      }
+
+      // A direct Telegram chat/channel username is required for Telegram to
+      // open the conversation with a draft message instead of the Forward/Share UI.
+      if(!path || path.includes("/")) return "";
+      return `https://t.me/${encodeURIComponent(path)}?text=${encodeURIComponent(message)}`;
+    }catch(e){
+      return "";
+    }
+  }
+
+  function restoreConfirmButton(button){
+    if(!button) return;
+    button.classList.remove("redirecting");
+    button.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="m21.4 4.2-3.2 15.2c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L5.6 12.9l-4.9-1.6c-1.1-.3-1.1-1.1.2-1.6L20 3.2c.9-.3 1.7.2 1.4 1Z"/></svg> Confirm via Telegram`;
+  }
+
+  function redirectConfirm(){
+    const button = document.querySelector(".confirm-btn.telegram");
+    const rawUrl = window.__paymentSettings?.telegram_url || "";
+    const {message} = getCheckoutMessage();
+    const destination = buildTelegramUrl(rawUrl, message);
+
+    if(!destination){
+      button.textContent = "Check the Telegram link in admin settings";
+      setTimeout(()=>restoreConfirmButton(button), 2200);
+      return;
+    }
+
+    button.classList.add("redirecting");
+    button.dataset.original = button.innerHTML;
+    button.textContent = "Redirecting to Telegram…";
+    setTimeout(()=>{
+      clearReceiptSelection();
+      window.location.href = destination;
+    },1200);
+  }
+
+  document.body.style.overflow = "hidden";
+  load();
+</script>
+
+<!-- First-entry payment notice -->
+<div class="modal-layer" id="noticeModal" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+  <div class="modal-card">
+    <div class="modal-inner">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3 2.8 20h18.4L12 3Z"/>
+          <path d="M12 9v5"/>
+          <path d="M12 17h.01"/>
+        </svg>
+      </div>
+      <div class="modal-kicker">Important notice</div>
+      <h2 class="modal-title" id="noticeTitle">Please read before payment</h2>
+      <p class="modal-text">
+        Please read this important warning before making a payment or requesting a withdrawal. Always use only the official account details displayed on the Jovia Network website.
+      </p>
+
+      <div class="important-note">
+        <strong>⚠️ DO NOT USE OPAY — FOR PAYMENT OR WITHDRAWAL</strong>
+        <p>
+          <b>OPay accounts are NOT accepted for Jovia Network payments or withdrawals.</b>
+          Do not transfer money from an OPay account, and do not provide an OPay account for withdrawals. Use another supported bank account, such as PalmPay, UBA, Moniepoint, Kuda or Access Bank. Before transferring, carefully confirm the bank name, account name and account number shown on this website.
+        </p>
+      </div>
+
+      <button class="modal-action" type="button" onclick="closeNotice()">
+        Understood
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Receipt confirmation modal -->
+<div class="modal-layer hidden" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal-card confirm-modal" id="confirmModalCard">
+    <button class="modal-close" type="button" aria-label="Close" onclick="closeConfirmModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6 6 18"/>
+      </svg>
+    </button>
+    <div class="modal-inner">
+      <div class="pending-pill">
+        <span class="pending-dot"></span>
+        Pending activation
+      </div>
+
+      <h2 class="pending-title" id="confirmTitle">Confirm your payment</h2>
+      <p class="pending-copy">
+        Upload the receipt for the payment you have just made. Once a receipt is selected, the confirmation options will appear below.
+      </p>
+
+      <div class="receipt-upload">
+        <input
+          class="receipt-input"
+          id="receiptInput"
+          type="file"
+          accept="image/*,.pdf"
+          onchange="handleReceipt(event)"
+        >
+
+        <label class="upload-zone" for="receiptInput">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 16V4"/>
+              <path d="m7 9 5-5 5 5"/>
+              <path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3"/>
+            </svg>
+          </div>
+          <b>Upload payment receipt</b>
+          <span>Tap to choose an image or PDF from your device</span>
+        </label>
+
+        <div class="receipt-preview" id="receiptPreview"></div>
+      </div>
+
+      <div class="confirm-actions" id="confirmActions">
+        <button class="confirm-btn telegram" type="button" onclick="redirectConfirm()">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="m21.4 4.2-3.2 15.2c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L5.6 12.9l-4.9-1.6c-1.1-.3-1.1-1.1.2-1.6L20 3.2c.9-.3 1.7.2 1.4 1Z"/>
+          </svg>
+          Confirm via Telegram
+        </button>
+
+
+      </div>
+
+      <button class="cancel-btn" type="button" onclick="closeConfirmModal()">Cancel</button>
+
+      <div class="receipt-note">
+        Payment activation remains pending until the submitted payment is reviewed.
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
